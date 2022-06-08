@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4c56a2cbb66640d69d3a29268faa5776" Name="Diagram1">
+        <EntityTypeShape EntityType="StoreModel.Arrival" Width="1.5" PointX="5.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StoreModel.Positions" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StoreModel.Products" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StoreModel.Purchases" Width="1.5" PointX="8.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="StoreModel.Specialists" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StoreModel.Suppliers" Width="1.5" PointX="6" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="StoreModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="8.125" IsExpanded="true" />
+        <AssociationConnector Association="StoreModel.FK_Arrival_Purchases" ManuallyRouted="false" />
+        <AssociationConnector Association="StoreModel.FK_Arrival_Specialists" ManuallyRouted="false" />
+        <AssociationConnector Association="StoreModel.FK_Specialists_Positions" ManuallyRouted="false" />
+        <AssociationConnector Association="StoreModel.FK_Purchases_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="StoreModel.FK_Purchases_Specialists" ManuallyRouted="false" />
+        <AssociationConnector Association="StoreModel.FK_Purchases_Suppliers" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

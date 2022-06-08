@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="StoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Arrival">
+    <Key>
+      <PropertyRef Name="Id_Arrival" />
+    </Key>
+    <Property Name="Id_Arrival" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Id_Purchase" Type="Int64" Nullable="false" />
+    <Property Name="Id_Specialist" Type="Int64" Nullable="false" />
+    <Property Name="Amount" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Purchases" Relationship="Self.FK_Arrival_Purchases" FromRole="Arrival" ToRole="Purchases" />
+    <NavigationProperty Name="Specialists" Relationship="Self.FK_Arrival_Specialists" FromRole="Arrival" ToRole="Specialists" />
+  </EntityType>
+  <EntityType Name="Positions">
+    <Key>
+      <PropertyRef Name="Id_Position" />
+    </Key>
+    <Property Name="Id_Position" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Specialists" Relationship="Self.FK_Specialists_Positions" FromRole="Positions" ToRole="Specialists" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="Id_Product" />
+    </Key>
+    <Property Name="Id_Product" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="255" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+    <Property Name="Country" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Amount" Type="Int32" />
+    <Property Name="Unit" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <NavigationProperty Name="Purchases" Relationship="Self.FK_Purchases_Products" FromRole="Products" ToRole="Purchases" />
+  </EntityType>
+  <EntityType Name="Purchases">
+    <Key>
+      <PropertyRef Name="Id_Purchase" />
+    </Key>
+    <Property Name="Id_Purchase" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Id_Supplier" Type="Int64" Nullable="false" />
+    <Property Name="Amount" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Id_Specialist" Type="Int64" Nullable="false" />
+    <Property Name="Order_date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Id_Product" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="Arrival" Relationship="Self.FK_Arrival_Purchases" FromRole="Purchases" ToRole="Arrival" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_Purchases_Products" FromRole="Purchases" ToRole="Products" />
+    <NavigationProperty Name="Specialists" Relationship="Self.FK_Purchases_Specialists" FromRole="Purchases" ToRole="Specialists" />
+    <NavigationProperty Name="Suppliers" Relationship="Self.FK_Purchases_Suppliers" FromRole="Purchases" ToRole="Suppliers" />
+  </EntityType>
+  <EntityType Name="Specialists">
+    <Key>
+      <PropertyRef Name="Id_Specialist" />
+    </Key>
+    <Property Name="Id_Specialist" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="120" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="15" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Id_Position" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="Arrival" Relationship="Self.FK_Arrival_Specialists" FromRole="Specialists" ToRole="Arrival" />
+    <NavigationProperty Name="Positions" Relationship="Self.FK_Specialists_Positions" FromRole="Specialists" ToRole="Positions" />
+    <NavigationProperty Name="Purchases" Relationship="Self.FK_Purchases_Specialists" FromRole="Specialists" ToRole="Purchases" />
+  </EntityType>
+  <EntityType Name="Suppliers">
+    <Key>
+      <PropertyRef Name="Id_Supplier" />
+    </Key>
+    <Property Name="Id_Supplier" Type="Int64" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="150" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="12" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="TIN" Type="String" MaxLength="12" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Settlement_Account" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Purchases" Relationship="Self.FK_Purchases_Suppliers" FromRole="Suppliers" ToRole="Purchases" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_Arrival_Purchases">
+    <End Role="Purchases" Type="Self.Purchases" Multiplicity="1" />
+    <End Role="Arrival" Type="Self.Arrival" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Purchases">
+        <PropertyRef Name="Id_Purchase" />
+      </Principal>
+      <Dependent Role="Arrival">
+        <PropertyRef Name="Id_Purchase" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Arrival_Specialists">
+    <End Role="Specialists" Type="Self.Specialists" Multiplicity="1" />
+    <End Role="Arrival" Type="Self.Arrival" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Specialists">
+        <PropertyRef Name="Id_Specialist" />
+      </Principal>
+      <Dependent Role="Arrival">
+        <PropertyRef Name="Id_Specialist" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Specialists_Positions">
+    <End Role="Positions" Type="Self.Positions" Multiplicity="1" />
+    <End Role="Specialists" Type="Self.Specialists" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Positions">
+        <PropertyRef Name="Id_Position" />
+      </Principal>
+      <Dependent Role="Specialists">
+        <PropertyRef Name="Id_Position" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Purchases_Products">
+    <End Role="Products" Type="Self.Products" Multiplicity="1" />
+    <End Role="Purchases" Type="Self.Purchases" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="Id_Product" />
+      </Principal>
+      <Dependent Role="Purchases">
+        <PropertyRef Name="Id_Product" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Purchases_Specialists">
+    <End Role="Specialists" Type="Self.Specialists" Multiplicity="1" />
+    <End Role="Purchases" Type="Self.Purchases" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Specialists">
+        <PropertyRef Name="Id_Specialist" />
+      </Principal>
+      <Dependent Role="Purchases">
+        <PropertyRef Name="Id_Specialist" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Purchases_Suppliers">
+    <End Role="Suppliers" Type="Self.Suppliers" Multiplicity="1" />
+    <End Role="Purchases" Type="Self.Purchases" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Suppliers">
+        <PropertyRef Name="Id_Supplier" />
+      </Principal>
+      <Dependent Role="Purchases">
+        <PropertyRef Name="Id_Supplier" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="StoreEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Arrival" EntityType="Self.Arrival" />
+    <EntitySet Name="Positions" EntityType="Self.Positions" />
+    <EntitySet Name="Products" EntityType="Self.Products" />
+    <EntitySet Name="Purchases" EntityType="Self.Purchases" />
+    <EntitySet Name="Specialists" EntityType="Self.Specialists" />
+    <EntitySet Name="Suppliers" EntityType="Self.Suppliers" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <AssociationSet Name="FK_Arrival_Purchases" Association="Self.FK_Arrival_Purchases">
+      <End Role="Purchases" EntitySet="Purchases" />
+      <End Role="Arrival" EntitySet="Arrival" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Arrival_Specialists" Association="Self.FK_Arrival_Specialists">
+      <End Role="Specialists" EntitySet="Specialists" />
+      <End Role="Arrival" EntitySet="Arrival" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Specialists_Positions" Association="Self.FK_Specialists_Positions">
+      <End Role="Positions" EntitySet="Positions" />
+      <End Role="Specialists" EntitySet="Specialists" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Purchases_Products" Association="Self.FK_Purchases_Products">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Purchases" EntitySet="Purchases" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Purchases_Specialists" Association="Self.FK_Purchases_Specialists">
+      <End Role="Specialists" EntitySet="Specialists" />
+      <End Role="Purchases" EntitySet="Purchases" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Purchases_Suppliers" Association="Self.FK_Purchases_Suppliers">
+      <End Role="Suppliers" EntitySet="Suppliers" />
+      <End Role="Purchases" EntitySet="Purchases" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
